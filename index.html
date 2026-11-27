@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"><meta http-equiv="Pragma" content="no-cache">
 <meta name="theme-color" content="#3F51B5"><title>المحترف في الرياضيات</title>
 <style>
 :root{--bg:#f4f5fb;--card:#fff;--tx:#1b1f3a;--pr:#3F51B5;--ok:#2e9e5b;--no:#d64545;--bd:#d9dcef}
@@ -59,12 +60,19 @@ A.innerHTML=`<h1>النتيجة</h1><div class="card"><div class="big">${pc}%</d
 <div class="st"><span>عدد الأسئلة</span><b>${n}</b></div><div class="st"><span>الإجابات الصحيحة</span><b>${ok}</b></div><div class="st"><span>الإجابات الخاطئة</span><b>${n-ok-sk}</b></div><div class="st"><span>المتجاوز عنها</span><b>${sk}</b></div></div>
 <button class="p" onclick="rev()">مراجعة الإجابات</button><button onclick="home()">الرئيسية</button>`}
 function rev(){A.innerHTML=`<h1>المراجعة</h1>`+S.q.map((r,i)=>`<div class="card q"><b>${i+1}) ${S.a[i]==r.t?"✅ صحيحة":S.a[i]?"❌ خاطئة":"⏭ متجاوزة"}</b>${im(r.q)}<p>الإجابة الصحيحة: <b>${"ABCD"[r.t-1]}</b>${S.a[i]?` – إجابتك: ${"ABCD"[S.a[i]-1]}`:""}</p><div class="sol">${im(r.s)}</div></div>`).join("")+`<button class="p" onclick="home()">الرئيسية</button>`}
+let VER='';fetch('sw.js',{cache:'no-store'}).then(r=>r.text()).then(s=>{VER=(/VERSION\s*=\s*'([^']+)'/.exec(s)||[])[1]||'';const e=$('ver');if(e&&VER)e.textContent='الإصدار '+VER}).catch(()=>{});
 function cover(){const P=[[6,8,2.6],[14,70,1.8],[40,6,2.2],[62,80,2.4],[78,12,1.6],[88,60,2.8],[28,88,1.8],[52,4,1.5]];
 A.innerHTML=`<div class="cover"><div class="sy">${["∫","π","∑","√","ƒ(x)","∞","Δ","x²"].map((s,i)=>`<span style="top:${P[i][0]}%;${i%2?"left":"right"}:${P[i][1]}%;font-size:${P[i][2]}rem;animation-delay:${i*.7}s">${s}</span>`).join("")}</div>
 <div class="top"><span class="bd">الرياضيات · الصف الثاني عشر</span></div>
 <div class="mid"><div class="logo">∫</div><h1>المحترف في الرياضيات</h1><p>تدرّب على أسئلة متنوعة في كل وحدات المنهاج، مع حل مصوّر لكل سؤال</p>
 <div class="stats"><div><b>${D.length}</b>سؤال</div><div><b>${U.length}</b>وحدات</div><div><b>2</b>فصلان</div></div>
 <div class="chips"><span>حل تفصيلي</span><span>اختبارات من 10 أسئلة</span><span>مراجعة الإجابات</span></div></div>
-<div class="bot"><button class="go" onclick="home()">ابدأ التدريب ←</button><small>يعمل على جميع الهواتف دون تثبيت</small></div></div>`;scrollTo(0,0)}
-fetch('data.json').then(r=>r.json()).then(j=>{D=j.questions;U=j.units;L=j.lessons;M=j.map;cover()}).catch(()=>{A.innerHTML='<div class="card">تعذّر تحميل data.json. شغّل الصفحة عبر استضافة أو خادم وليس بفتح الملف مباشرة.</div>'})
+<div class="bot"><button class="go" onclick="home()">ابدأ التدريب ←</button><small>يعمل على جميع الهواتف دون تثبيت</small><small id="ver" style="margin-top:3px">${VER?"الإصدار "+VER:""}</small></div></div>`;scrollTo(0,0)}
+fetch('data.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(j=>{D=j.questions;U=j.units;L=j.lessons;M=j.map;cover()}).catch(()=>{A.innerHTML='<div class="card">تعذّر تحميل data.json. شغّل الصفحة عبر استضافة أو خادم وليس بفتح الملف مباشرة.</div>'})
+
+if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;
+addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(g=>g.update()).catch(()=>{}));
+navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had)return;const d=document.createElement('div');
+d.style.cssText='position:fixed;inset:auto 12px 12px;z-index:99;background:#1a237e;color:#fff;padding:12px;border-radius:12px;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)';
+d.textContent='تم تحديث التطبيق — اضغط هنا لإعادة التحميل';d.onclick=()=>location.reload();document.body.appendChild(d)})}
 </script></body></html>
