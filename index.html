@@ -26,6 +26,19 @@ h2{border-inline-start:5px solid var(--pr);padding-inline-start:8px}
 .les{background:hsl(var(--h) 70% 94%);color:#1b1f3a;border:1px solid hsl(var(--h) 45% 80%);border-inline-start:5px solid hsl(var(--h) 55% 42%);font-size:.92rem;border-radius:10px}
 .les.all{font-weight:700;background:hsl(var(--h) 70% 88%)}
 @media(prefers-color-scheme:dark){.les{background:hsl(var(--h) 30% 20%);color:var(--tx);border-color:hsl(var(--h) 30% 32%)}.les.all{background:hsl(var(--h) 32% 27%)}}
+
+.cover{position:relative;overflow:hidden;color:#fff;border-radius:24px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:calc(100vh - 24px);min-height:calc(100dvh - 24px);background:radial-gradient(circle at 85% 8%,#7c4dff 0,transparent 45%),radial-gradient(circle at 10% 95%,#00bfa5 0,transparent 40%),linear-gradient(160deg,#1a237e,#3F51B5);box-shadow:0 10px 30px rgba(26,35,126,.35)}
+.cover>*{position:relative;z-index:1}.cover .sy{position:absolute;inset:0;z-index:0;pointer-events:none}
+.sy span{position:absolute;color:rgba(255,255,255,.16);font-family:Georgia,serif;font-weight:700;animation:fl 6s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translateY(-16px) rotate(8deg)}}
+.cover .top{text-align:center}.bd{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 14px;border-radius:99px;font-size:.82rem;backdrop-filter:blur(6px)}
+.cover .mid{text-align:center}.logo{width:92px;height:92px;margin:0 auto 14px;border-radius:26px;display:grid;place-items:center;font:700 3.4rem Georgia,serif;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);box-shadow:0 8px 24px rgba(0,0,0,.25);backdrop-filter:blur(8px)}
+.cover h1{font-size:1.9rem;margin:.2rem 0 .5rem;line-height:1.3}.cover p{margin:0 auto 18px;max-width:30ch;opacity:.9;line-height:1.7}
+.stats{display:flex;gap:8px;margin-bottom:14px}.stats div{flex:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:10px 4px;font-size:.8rem;backdrop-filter:blur(6px)}.stats b{display:block;font-size:1.4rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.chips span{font-size:.78rem;padding:5px 11px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22)}
+.cover .bot{text-align:center}.go{background:#fff;color:#283593;border:0;text-align:center;font-weight:800;font-size:1.1rem;padding:15px;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.25);transition:transform .15s}.go:active{transform:scale(.97)}
+.cover small{display:block;margin-top:10px;opacity:.75;font-size:.75rem}
+@media(prefers-reduced-motion:reduce){.sy span{animation:none}}
 </style></head><body><div id="app"></div>
 <script>
 let D,U,L,M;
@@ -46,5 +59,12 @@ A.innerHTML=`<h1>النتيجة</h1><div class="card"><div class="big">${pc}%</d
 <div class="st"><span>عدد الأسئلة</span><b>${n}</b></div><div class="st"><span>الإجابات الصحيحة</span><b>${ok}</b></div><div class="st"><span>الإجابات الخاطئة</span><b>${n-ok-sk}</b></div><div class="st"><span>المتجاوز عنها</span><b>${sk}</b></div></div>
 <button class="p" onclick="rev()">مراجعة الإجابات</button><button onclick="home()">الرئيسية</button>`}
 function rev(){A.innerHTML=`<h1>المراجعة</h1>`+S.q.map((r,i)=>`<div class="card q"><b>${i+1}) ${S.a[i]==r.t?"✅ صحيحة":S.a[i]?"❌ خاطئة":"⏭ متجاوزة"}</b>${im(r.q)}<p>الإجابة الصحيحة: <b>${"ABCD"[r.t-1]}</b>${S.a[i]?` – إجابتك: ${"ABCD"[S.a[i]-1]}`:""}</p><div class="sol">${im(r.s)}</div></div>`).join("")+`<button class="p" onclick="home()">الرئيسية</button>`}
-fetch('data.json').then(r=>r.json()).then(j=>{D=j.questions;U=j.units;L=j.lessons;M=j.map;home()}).catch(()=>{A.innerHTML='<div class="card">تعذّر تحميل data.json. شغّل الصفحة عبر استضافة أو خادم وليس بفتح الملف مباشرة.</div>'})
+function cover(){const P=[[6,8,2.6],[14,70,1.8],[40,6,2.2],[62,80,2.4],[78,12,1.6],[88,60,2.8],[28,88,1.8],[52,4,1.5]];
+A.innerHTML=`<div class="cover"><div class="sy">${["∫","π","∑","√","ƒ(x)","∞","Δ","x²"].map((s,i)=>`<span style="top:${P[i][0]}%;${i%2?"left":"right"}:${P[i][1]}%;font-size:${P[i][2]}rem;animation-delay:${i*.7}s">${s}</span>`).join("")}</div>
+<div class="top"><span class="bd">الرياضيات · الصف الثاني عشر</span></div>
+<div class="mid"><div class="logo">∫</div><h1>المحترف في الرياضيات</h1><p>تدرّب على أسئلة متنوعة في كل وحدات المنهاج، مع حل مصوّر لكل سؤال</p>
+<div class="stats"><div><b>${D.length}</b>سؤال</div><div><b>${U.length}</b>وحدات</div><div><b>2</b>فصلان</div></div>
+<div class="chips"><span>حل تفصيلي</span><span>اختبارات من 10 أسئلة</span><span>مراجعة الإجابات</span></div></div>
+<div class="bot"><button class="go" onclick="home()">ابدأ التدريب ←</button><small>يعمل على جميع الهواتف دون تثبيت</small></div></div>`;scrollTo(0,0)}
+fetch('data.json').then(r=>r.json()).then(j=>{D=j.questions;U=j.units;L=j.lessons;M=j.map;cover()}).catch(()=>{A.innerHTML='<div class="card">تعذّر تحميل data.json. شغّل الصفحة عبر استضافة أو خادم وليس بفتح الملف مباشرة.</div>'})
 </script></body></html>
