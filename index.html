@@ -28,8 +28,8 @@ h2{border-inline-start:5px solid var(--pr);padding-inline-start:8px}
 @media(prefers-color-scheme:dark){.les{background:hsl(var(--h) 30% 20%);color:var(--tx);border-color:hsl(var(--h) 30% 32%)}.les.all{background:hsl(var(--h) 32% 27%)}}
 </style></head><body><div id="app"></div>
 <script>
-let D,U,L;
-const $=s=>document.getElementById(s),A=$("app"),im=n=>`<img src="assets/${n}.jpg" alt="" onerror="this.style.display='none'">`;
+let D,U,L,M;
+const $=s=>document.getElementById(s),A=$("app"),im=n=>!M[n]?"":`<img src="assets/img${M[n]}/${n}.jpg" alt="" onerror="this.style.display='none'">`;
 let S={},opn=-1;
 function home(){let h=`<h1>المحترف في الرياضيات</h1><div class="card" style="text-align:center">الرياضيات 12 – الفرع العلمي والصناعي<br><small>${D.length} سؤال</small></div>
 <h2>اختبارات شاملة</h2><div class="row"><button class="sem s1" onclick="go([1,2,3])">الفصل الأول</button><button class="sem s2" onclick="go([4,5,6])">الفصل الثاني</button></div><button class="sem s3" onclick="go([1,2,3,4,5,6])">الفصلان</button><h2>حسب الوحدة والدرس</h2>`;
@@ -46,5 +46,5 @@ A.innerHTML=`<h1>النتيجة</h1><div class="card"><div class="big">${pc}%</d
 <div class="st"><span>عدد الأسئلة</span><b>${n}</b></div><div class="st"><span>الإجابات الصحيحة</span><b>${ok}</b></div><div class="st"><span>الإجابات الخاطئة</span><b>${n-ok-sk}</b></div><div class="st"><span>المتجاوز عنها</span><b>${sk}</b></div></div>
 <button class="p" onclick="rev()">مراجعة الإجابات</button><button onclick="home()">الرئيسية</button>`}
 function rev(){A.innerHTML=`<h1>المراجعة</h1>`+S.q.map((r,i)=>`<div class="card q"><b>${i+1}) ${S.a[i]==r.t?"✅ صحيحة":S.a[i]?"❌ خاطئة":"⏭ متجاوزة"}</b>${im(r.q)}<p>الإجابة الصحيحة: <b>${"ABCD"[r.t-1]}</b>${S.a[i]?` – إجابتك: ${"ABCD"[S.a[i]-1]}`:""}</p><div class="sol">${im(r.s)}</div></div>`).join("")+`<button class="p" onclick="home()">الرئيسية</button>`}
-fetch('data.json').then(r=>r.json()).then(j=>{D=j.questions;U=j.units;L=j.lessons;home()}).catch(()=>{A.innerHTML='<div class="card">تعذّر تحميل data.json. شغّل الصفحة عبر استضافة أو خادم وليس بفتح الملف مباشرة.</div>'})
+fetch('data.json').then(r=>r.json()).then(j=>{D=j.questions;U=j.units;L=j.lessons;M=j.map;home()}).catch(()=>{A.innerHTML='<div class="card">تعذّر تحميل data.json. شغّل الصفحة عبر استضافة أو خادم وليس بفتح الملف مباشرة.</div>'})
 </script></body></html>
